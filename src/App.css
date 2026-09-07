@@ -122,7 +122,7 @@ th, td {
 @media screen and (max-width: 600px) {
     div.App{
         padding: 1rem;
-        width: 95%;
+        width: 100%;
     }
     h1 {
         font-size: 3rem;
