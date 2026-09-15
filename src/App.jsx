@@ -4,6 +4,7 @@ import { supabase } from './services/supabaseClient.js';
 
 import Leaderboard from './components/leaderboard.jsx';
 import Filter from './components/filter.jsx';
+import Footer from './components/footer.jsx';
 
 const timeToMs = (time) => {
   if (!time) return;
@@ -132,6 +133,7 @@ useEffect(() => {
 
 
   return (
+    <body>
     <div className="App">
       <div>
         <h1>LMU Leaderboard</h1>
@@ -140,6 +142,8 @@ useEffect(() => {
       <Filter filter={filter} onFilterChange={handleFilterChange} players={players} />
       <Leaderboard filteredPlayers={sortedPlayers} />
     </div>
+    <Footer />
+    </body>
 
   );
 }

@@ -52,6 +52,12 @@ form {
     justify-content: center;
     margin-top: 1rem;
     gap: 1rem;
+    white-space: nowrap;
+}
+div.form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 select {
@@ -112,24 +118,20 @@ table {
     width: 100%;
     margin-top: 1rem;
 }
+
 th, td {
     border-bottom: 0.2rem solid hsl(0, 0%, 10%);
     padding: 0.5rem;
     text-align: center;
 }
+footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: hsl(0, 95%, 100%);
+}
 
-
-@media screen and (max-width: 600px) {
-    div.App{
-        padding: 1rem;
-        width: 100%;
-    }
-    h1 {
-        font-size: 3rem;
-    }
-    p {
-        font-size: 1.2rem;
-    }
+@media screen and (max-width: 925px) {
     form {
         flex-direction: column;
         align-items: stretch;
@@ -156,6 +158,19 @@ th, td {
         align-self: center;
     }
     
+}
+
+@media screen and (max-width: 800px) {
+    div.App{
+        padding: 1rem;
+        width: 100%;
+    }
+    h1 {
+        font-size: 3rem;
+    }
+    p {
+        font-size: 1.2rem;
+    }
 }
 
 @media screen and (max-width: 400px) {
