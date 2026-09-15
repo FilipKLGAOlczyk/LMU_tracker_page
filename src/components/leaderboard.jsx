@@ -17,7 +17,7 @@ const Leaderboard = ({ filteredPlayers }) => {
             </thead>
             <tbody>
                 {filteredPlayers.map((player, index) => (
-                    <tr key={`${player.name}-${player.track}-${player.car}`}>
+                    <tr key={player.id}>
                         <td>{index + 1}</td>
                         <td>{player.name}</td>
                         <td>{player.track}</td>
