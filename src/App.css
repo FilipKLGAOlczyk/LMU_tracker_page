@@ -125,11 +125,26 @@ th, td {
     text-align: center;
 }
 footer {
-    margin-top: 2rem;
+    margin-top: 3rem;
     text-align: center;
     font-size: 0.8rem;
-    color: hsl(0, 95%, 100%);
+    display: block;
+    align-items: center;
+    margin-bottom: 0;
 }
+footer img {
+    scale: 1.2; 
+    margin-inline: 1rem;
+    margin-bottom: 2rem;
+}
+footer img:hover {
+    scale: 1.1;
+    transition: all 0.3s ease-in-out;
+}
+footer p {
+    color: hsl(0, 0%, 45%);
+}
+
 
 @media screen and (max-width: 925px) {
     form {
@@ -157,6 +172,12 @@ footer {
         width: 50%;
         align-self: center;
     }
+    footer img {
+        margin-bottom: 1rem;
+    }
+    footer p {
+        font-size: 0.9rem;
+    }
     
 }
 
@@ -171,6 +192,7 @@ footer {
     p {
         font-size: 1.2rem;
     }
+    
 }
 
 @media screen and (max-width: 400px) {
@@ -182,5 +204,12 @@ footer {
     }
     button{
         margin-top: 1.4rem;
+    }
+    footer p {
+        font-size: 0.8rem;
+    }
+    footer img {
+        scale: 1;
+        margin-inline: 0.5rem;
     }
 }

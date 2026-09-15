@@ -133,17 +133,17 @@ useEffect(() => {
 
 
   return (
-    <body>
-    <div className="App">
-      <div>
-        <h1>LMU Leaderboard</h1>
-        <p>This was made for Yoji CREW!</p>
+    <div className="body">
+      <div className="App">
+        <div>
+          <h1>LMU Leaderboard</h1>
+          <p>This was made for Yoji CREW!</p>
+        </div>
+        <Filter filter={filter} onFilterChange={handleFilterChange} players={players} />
+        <Leaderboard filteredPlayers={sortedPlayers} />
       </div>
-      <Filter filter={filter} onFilterChange={handleFilterChange} players={players} />
-      <Leaderboard filteredPlayers={sortedPlayers} />
+      <Footer />
     </div>
-    <Footer />
-    </body>
 
   );
 }
