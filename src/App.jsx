@@ -5,6 +5,18 @@ import { supabase } from './services/supabaseClient.js';
 import Leaderboard from './components/leaderboard.jsx';
 import Filter from './components/filter.jsx';
 
+const timeToMs = (time) => {
+  if (!time) return;
+  
+  const parts = time.split(':');
+
+  const minutes = Number(parts[0]) || 0;
+  const seconds = Number(parts[1]) || 0;
+  const miliseconds = Number(parts[2]) || 0;
+  
+  return (minutes * 60 + seconds) * 1000 + miliseconds;
+    }
+
 const App =() => {
 const [filter,setFilter] = useState({track: '', class: '', car: ''});
 const [players, setPlayers] = useState([]);
@@ -48,24 +60,31 @@ useEffect(() => {
           
           // Handle improved lap times (upserts trigger UPDATE events)
           if (payload.eventType === 'UPDATE') {
+
             return prevPlayers.map((player) => {
-              // Jeśli używasz kolumny ID (najbezpieczniej):
-              if (player.id && payload.new.id) {
-                return player.id === payload.new.id ? payload.new : player;
-              }
-              
-              // Jeśli nie masz ID, sprawdzamy trójkę: Kierowca + Tor + Auto
               const isExactSameSession = 
                 player.name === payload.new.name && 
                 player.track === payload.new.track && 
                 player.car === payload.new.car;
 
-              return isExactSameSession ? payload.new : player;
+
+              if (isExactSameSession) {
+                  const oldTime=  timeToMs(player.avg_five);
+                  const newTime= timeToMs(payload.new.avg_five);
+
+                  if (newTime < oldTime) {
+                    console.log(`Improved lap time for ${player.name}: ${oldTime}ms -> ${newTime}ms`);
+                    return payload.new;
+                  } else {
+                    console.log(`Lap time for ${player.name} did not improve: ${oldTime}ms -> ${newTime}ms`);
+                    return player; // Keep the old record if the new time is not better
+                  }
+                }
+                return player;
             });
           }
           if (payload.eventType === 'DELETE') {
               return prevPlayers.filter((player) => {
-                // Przy usuwaniu używamy payload.old i odrzucamy z tablicy ten konkretny wpis
                 const isExactSameRecord = 
                   player.name === payload.old.name && 
                   player.track === payload.old.track && 
@@ -107,13 +126,9 @@ useEffect(() => {
         );
     });
   const sortedPlayers = [...filteredPlayers].sort((a, b) => {
-
-    const timeToMs = (time) => {
-      const [minutes, seconds, miliseconds] = time.split(':').map(Number);
-      return (minutes * 60 + seconds) * 1000 + miliseconds;
-    }
     return timeToMs(a.avg_five) - timeToMs(b.avg_five);
   });
+
 
 
   return (
