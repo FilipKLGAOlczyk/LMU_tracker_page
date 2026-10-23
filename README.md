@@ -1,16 +1,58 @@
-# React + Vite
+# LMU Leaderboard 🏁
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web page that shows the leaderboard of **Le Mans Ultimate** lap-time averages collected by the [LMU Tracker](https://github.com/FilipKLGAOlczyk/lmu_tracker_app) desktop app.
 
-Currently, two official plugins are available:
+**Live demo:** https://lmu-leaderboard-page.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech stack
 
-## React Compiler
+- [React](https://react.dev) 19
+- [Vite](https://vite.dev)
+- [Supabase](https://supabase.com) (`@supabase/supabase-js`) as the database
+- ESLint
+- Hosted on [Vercel](https://vercel.com)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How it fits together
 
-## Expanding the ESLint configuration
+```mermaid
+flowchart LR
+    G["Le Mans Ultimate"] -- shared memory --> T["LMU Tracker (Python)"]
+    T -- upsert --> S[("Supabase: leaderboard")]
+    S -- select --> W["This page (React + Vite)"]
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The tracker app saves the best average of five clean laps for each driver, track, class and car. This page reads the same `leaderboard` table and displays the results.
+
+## Run locally
+
+```bash
+git clone https://github.com/FilipKLGAOlczyk/LMU_tracker_page.git
+cd LMU_tracker_page
+npm install
+```
+
+Create a `.env` file in the project root:
+
+```
+VITE_SUPABASE_URL=https://<your-project>.supabase.co
+VITE_SUPABASE_ANON_KEY=<your-anon-key>
+```
+
+Then start the dev server:
+
+```bash
+npm run dev
+```
+
+| Script | Description |
+|---|---|
+| `npm run dev` | Start the development server |
+| `npm run build` | Build the production bundle |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+
+## Deployment
+
+The page is deployed on Vercel. Add the same two environment variables in the Vercel project settings.
+
+Only the public **anon** key belongs in the front end. Protect the table with Row Level Security (read-only access for anonymous users).
